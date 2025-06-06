@@ -18,3 +18,7 @@ This project is currently under active development. Below are the main areas bei
 - [ ] Query Optimization
 - [ ] Code Cleanup
 
+## 🔹 Full Optimization
+- [ ] FrontEnd and Backend optimized Integration
+- [ ] Full Code Cleanup
+
