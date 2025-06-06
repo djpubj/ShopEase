@@ -1,5 +1,5 @@
-import ProductSpecs from "../components/ProductSpecs";
-import SimilarProductList from "../components/SimilarProductList";
+import ProductSpecs from "../components/productpagecomponent/ProductSpecs";
+import SimilarProductList from "../components/productpagecomponent/SimilarProductList";
 import ProductInfo from "../components/productpagecomponent/ProductInfo";
 import ProductPhoto from "../components/productpagecomponent/productphoto";
 

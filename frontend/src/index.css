@@ -8,3 +8,6 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

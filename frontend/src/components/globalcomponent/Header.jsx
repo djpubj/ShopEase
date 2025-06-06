@@ -7,6 +7,7 @@ import {
   FaSearch,
   FaBars,
   FaTimes,
+  FaShoppingBag,
 } from "react-icons/fa";
 import logo from "@/assets/logo.png";
 import { Link } from "react-router-dom";
@@ -64,7 +65,9 @@ export default function Header() {
             className="w-6 h-6 sm:w-8 sm:h-8"
             loading="lazy"
           />
-          <span className="hidden sm:inline">ShopEase</span>
+          <Link to="/">
+            <span className="hidden sm:inline">ShopEase</span>
+          </Link>
         </div>
 
         {/* Mobile Menu & Search Buttons */}
@@ -119,19 +122,22 @@ export default function Header() {
 
         {/* Account & Cart - Desktop */}
         <div className="hidden sm:flex items-center gap-4 lg:gap-6 text-gray-800">
-          <a
-            href="#"
-            className="flex items-center gap-1 hover:text-blue-800 transition-colors"
-          >
-            <FaUser aria-hidden="true" />{" "}
-            <span className="hidden md:inline">Account</span>
-          </a>
+          <Link to="/LoginPage">
+            <p className="flex items-center gap-1 hover:text-blue-800 transition-colors">
+              <FaUser aria-hidden="true" />{" "}
+              <span className="hidden md:inline">Account</span>
+            </p>
+          </Link>
           <Link to="/CartCheckout">
             <p className="flex items-center gap-1 hover:text-blue-800 transition-colors">
               <FaShoppingCart aria-hidden="true" />{" "}
               <span className="hidden md:inline">Cart</span>
             </p>
           </Link>
+          <p className="flex items-center gap-1 hover:text-blue-800 transition-colors">
+            <FaShoppingBag aria-hidden="true" />{" "}
+            <span className="hidden md:inline">MyOrder</span>
+          </p>
         </div>
 
         {/* Language & Location - Desktop */}

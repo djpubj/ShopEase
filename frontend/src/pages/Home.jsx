@@ -1,7 +1,7 @@
 import React from "react";
-import BannerCarousel from '@/components/BannerCarousel'
-import FilterTab from '@/components/FilterTab'
-import ProductList from '@/components/ProductList'
+import BannerCarousel from '@/components/homepagecomponent/BannerCarousel'
+import FilterTab from '@/components/homepagecomponent/FilterTab'
+import ProductList from '@/components/globalcomponent/ProductList'
 
 
 export default function Home() {

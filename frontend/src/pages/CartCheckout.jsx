@@ -1,12 +1,15 @@
-import React from "react";
-import SummaryInCart from "@/components/SummaryInCart";
-import DeliveryInformation from '@/components/DeliveryInfromation'
+import { useState } from "react";
+import SummaryInCart from "@/components/cartpagecomponent/SummaryInCart";
 import CartProduct from "@/components/cartpagecomponent/CartProduct";
 import DeliveryInfo from "@/components/cartpagecomponent/DeliveryInfo";
 import DeliveryInfoEdit from "@/components/cartpagecomponent/DeliveryInfoEdit";
-import ReturningCustomerToggle from "../components/cartpagecomponent/ReturningCustomerToggle";
+import ReturningCustomerToggle from "@c/cartpagecomponent/ReturningCustomerToggle";
 
 export default function CartCheckout() {
+  const [deliveryInfoEdit, setdeliveryInfoEdit] = useState(false);
+  const handleToggleDeliveryInfoEdit = () => {
+    setdeliveryInfoEdit((prev) => !prev);
+  };
   return (
     <div className="bg-gray-50 min-h-screen p-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -17,22 +20,22 @@ export default function CartCheckout() {
             Home / <span className="text-black font-medium">Checkout</span>
           </p>
           {/* Product Review */}
-          <CartProduct/>
+          <CartProduct />
 
           {/* Returning Customer */}
-          <ReturningCustomerToggle/>
+          <ReturningCustomerToggle />
 
           {/* Delivery Info */}
-          <DeliveryInfo/>
+
+          <DeliveryInfo onToggleEdit={handleToggleDeliveryInfoEdit} />
 
           {/* Delivery Info  Edit*/}
-          <DeliveryInfoEdit/>
+          {deliveryInfoEdit && <DeliveryInfoEdit />}
         </div>
 
         {/* Right Side */}
-        <SummaryInCart/>
+        <SummaryInCart />
       </div>
     </div>
   );
-};
-
+}

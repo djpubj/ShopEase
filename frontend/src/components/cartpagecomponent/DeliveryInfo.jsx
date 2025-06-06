@@ -1,11 +1,11 @@
 import React from "react";
 
-export default function DeliveryInfo() {
+export default function DeliveryInfo({onToggleEdit}) {
   return (
     <div className="bg-white rounded-xl shadow-sm p-6">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold">Delivery Information</h3>
-        <button className="text-sm px-3 py-1 border rounded-md hover:bg-gray-100">
+        <button className="text-sm px-3 py-1 border rounded-md hover:bg-gray-100" onClick={onToggleEdit}>
           Edit
         </button>
       </div>

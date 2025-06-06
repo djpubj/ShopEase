@@ -1,25 +1,38 @@
-import React from 'react';
+import React from "react";
 
 const footerSections = [
   {
-    title: 'SHOPPING',
-    items: ['Men', 'Women', 'Kids', 'Electronics', 'Home & Living'],
+    title: "SHOPPING",
+    items: ["Men", "Women", "Kids", "Electronics", "Home & Living"],
   },
   {
-    title: 'CUSTOMER CARE',
-    items: ['Contact Us', 'FAQs', 'Shipping Info', 'Returns & Refunds', 'Terms & Conditions', 'Privacy Policy'],
+    title: "CUSTOMER CARE",
+    items: [
+      "Contact Us",
+      "FAQs",
+      "Shipping Info",
+      "Returns & Refunds",
+      "Terms & Conditions",
+      "Privacy Policy",
+    ],
   },
   {
-    title: 'USEFUL LINKS',
-    items: ['Blog', 'Careers', 'Affiliate Program', 'Gift Cards', 'Sell on ShopEase'],
+    title: "USEFUL LINKS",
+    items: [
+      "Blog",
+      "Careers",
+      "Affiliate Program",
+      "Gift Cards",
+      "Sell on ShopEase",
+    ],
   },
 ];
 
 const socialIcons = [
-  { name: 'Facebook', iconClass: 'fab fa-facebook-f', link: '#' },
-  { name: 'Twitter', iconClass: 'fab fa-twitter', link: '#' },
-  { name: 'Instagram', iconClass: 'fab fa-instagram', link: '#' },
-  { name: 'YouTube', iconClass: 'fab fa-youtube', link: '#' },
+  { name: "Facebook", iconClass: "fab fa-facebook-f", link: "#" },
+  { name: "Twitter", iconClass: "fab fa-twitter", link: "#" },
+  { name: "Instagram", iconClass: "fab fa-instagram", link: "#" },
+  { name: "YouTube", iconClass: "fab fa-youtube", link: "#" },
 ];
 
 const Footer = () => {
@@ -31,7 +44,9 @@ const Footer = () => {
             <h3 className="font-semibold mb-2">{section.title}</h3>
             <ul className="space-y-1">
               {section.items.map((item) => (
-                <li key={item} className="cursor-pointer hover:underline">{item}</li>
+                <li key={item} className="cursor-pointer hover:underline">
+                  {item}
+                </li>
               ))}
             </ul>
           </div>
@@ -40,8 +55,12 @@ const Footer = () => {
         <div>
           <h3 className="font-semibold mb-2">GET THE APP</h3>
           <div className="flex space-x-2 mt-2">
-            <img src="/google-play-badge.png" alt="Google Play" className="w-24" />
-            <img src="/app-store-badge.png" alt="App Store" className="w-24" />
+            <a href={null} aria-label={"Google Play"}>
+              <i className={"fab fa-google-play"}></i>
+            </a>
+            <a href={null} aria-label={'App Store'}>
+              <i className={'fab fa-app-store-ios'}></i>
+            </a>
           </div>
           <div className="mt-4">
             <h4 className="font-semibold mb-1">FOLLOW US</h4>
@@ -58,7 +77,7 @@ const Footer = () => {
 
       <div className="mt-10 border-t pt-4 text-center text-xs text-gray-500">
         <p>&copy; 2025 ShopEase. All rights reserved.</p>
-        <p className="mt-1">A product by YourCompanyName</p>
+        <p className="mt-1">A product by ShopEase</p>
       </div>
     </footer>
   );
