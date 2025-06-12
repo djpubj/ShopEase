@@ -2,11 +2,9 @@ package com.shopease.backend.controller;
 
 import com.shopease.backend.entity.AuthRequest;
 import com.shopease.backend.entity.Role;
-import com.shopease.backend.entity.UserRecieved;
 import com.shopease.backend.entity.Users;
 import com.shopease.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

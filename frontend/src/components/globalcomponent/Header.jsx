@@ -10,7 +10,9 @@ import {
   FaShoppingBag,
 } from "react-icons/fa";
 import logo from "@/assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { orderInCartState } from "../../data/atoms/atoms";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,9 +34,16 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const navigate = useNavigate();
+  const handleAccountPage = () => {
+    navigate("/account");
+  };
+
   // Toggle functions
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const toggleSearch = () => setIsSearchOpen((prev) => !prev);
+  const cartProductList = useRecoilValue(orderInCartState);
+  const cartCount = cartProductList.length;
 
   return (
     <header className=" sticky top-0 z-50 bg-white">
@@ -99,9 +108,6 @@ export default function Header() {
           <a href="#" className="hover:text-blue-800 transition-colors">
             What's New
           </a>
-          <a href="#" className="hover:text-blue-800 transition-colors">
-            Delivery
-          </a>
         </nav>
 
         {/* Search Bar - Desktop */}
@@ -122,22 +128,28 @@ export default function Header() {
 
         {/* Account & Cart - Desktop */}
         <div className="hidden sm:flex items-center gap-4 lg:gap-6 text-gray-800">
-          <Link to="/LoginPage">
-            <p className="flex items-center gap-1 hover:text-blue-800 transition-colors">
-              <FaUser aria-hidden="true" />{" "}
-              <span className="hidden md:inline">Account</span>
-            </p>
-          </Link>
-          <Link to="/CartCheckout">
-            <p className="flex items-center gap-1 hover:text-blue-800 transition-colors">
-              <FaShoppingCart aria-hidden="true" />{" "}
-              <span className="hidden md:inline">Cart</span>
-            </p>
-          </Link>
+          <p className="flex items-center gap-1 hover:text-blue-800 transition-colors" onClick={handleAccountPage}>
+            <FaUser aria-hidden="true" />{" "}
+            <span className="hidden md:inline">Account</span>
+          </p>
+
           <p className="flex items-center gap-1 hover:text-blue-800 transition-colors">
             <FaShoppingBag aria-hidden="true" />{" "}
             <span className="hidden md:inline">MyOrder</span>
           </p>
+          <Link to="/CartCheckout">
+            <div className="flex items-center gap-1 hover:text-blue-800 transition-colors">
+              <div className="relative">
+                <FaShoppingCart aria-hidden="true" className="text-xl" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-3 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </div>
+              <span className="hidden md:inline">Cart</span>
+            </div>
+          </Link>
         </div>
 
         {/* Language & Location - Desktop */}

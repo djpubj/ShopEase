@@ -2,7 +2,6 @@ package com.shopease.backend.service;
 
 import com.shopease.backend.entity.Products;
 import com.shopease.backend.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

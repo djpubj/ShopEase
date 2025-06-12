@@ -8,11 +8,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TokenGenerateUtil {
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JWTUtil jwtUtil;
 
-    @Autowired
-    JWTUtil jwtUtil;
+    public TokenGenerateUtil(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+    }
     public String generateToken(AuthRequest authRequest) {
         try {
             authenticationManager.authenticate(

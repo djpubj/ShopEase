@@ -1,11 +1,15 @@
-import React from 'react';
+import React from "react";
+import { useRecoilValue } from "recoil";
+import { currentProduct } from "../../data/atoms/atoms";
 
 const ProductSpecs = () => {
+  const numbers = [1, 2, 3, 4, 5,6,7,8];
+  const currentproduct=useRecoilValue(currentProduct);
   return (
     <div className="bg-gray-100 p-12 text-gray-800 rounded-2xl">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-2xl font-bold mb-6">
-          Apple AirPods Max Wireless Headphones Full Specifications
+          {currentproduct.title} Full Details
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -13,13 +17,9 @@ const ProductSpecs = () => {
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-lg font-medium mb-4">General</h2>
             <div className="space-y-2">
-              <SpecItem label="Brand" value="Apple" />
-              <SpecItem label="Model" value="Model AirPods Max Wireless Headphones" />
-              <SpecItem label="Price" value="$549.00" />
-              <SpecItem label="Release Date" value="December 2020" />
-              <SpecItem label="Model Number" value="AirPods Max" />
-              <SpecItem label="Headphone Type" value="Over-Ear" />
-              <SpecItem label="Connectivity" value="Wireless" />
+              {numbers.map((num, index) => (
+                <SpecItem key={index} label="-----" value="-----" />
+              ))}
             </div>
           </div>
 
@@ -27,13 +27,9 @@ const ProductSpecs = () => {
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-lg font-medium mb-4">Product details</h2>
             <div className="space-y-2">
-              <SpecItem label="Microphone" value="Yes" />
-              <SpecItem label="Driver Type" value="Dynamic" />
-              <SpecItem label="Driver Size (mm)" value="40" />
-              <SpecItem label="Number of Drivers" value="1" />
-              <SpecItem label="Water Resistant" value="No" />
-              <SpecItem label="Weight (g)" value="385.00" />
-              <SpecItem label="Battery Life (Hrs)" value="20" />
+              {numbers.map((num, index) => (
+                <SpecItem key={index} label="-----" value="-----" />
+              ))}
             </div>
           </div>
         </div>

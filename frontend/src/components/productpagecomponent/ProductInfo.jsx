@@ -1,26 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { currentProduct } from "../../data/atoms/atoms";
 
 export default function ProductInfo() {
+  const currentproduct = useRecoilValue(currentProduct);
+  const [count,setcount]=useState(0);
+
+  useEffect(()=>{
+    setcount(count=>0)
+  },[currentproduct])
+
   return (
     <div className="space-y-4">
-      <h1 className="text-4xl font-bold">Airpods- Max</h1>
+      <h1 className="text-4xl font-bold">{currentproduct.title}</h1>
       <p className="text-gray-600">
-        a perfect balance of exhilarating high-fidelity audio and the effortless
-        magic of AirPods.
+        {currentproduct.description}
       </p>
 
       <div className="flex items-center gap-2">
-        <span className="text-green-600 text-sm">★★★★★</span>
-        <span className="text-sm text-gray-500">(121)</span>
+        <span className="text-green-600 text-sm">{"★".repeat(currentproduct.rating)}{" "}</span>
+        <span className="text-sm text-gray-500">{currentproduct.rating}</span>
       </div>
 
-      <p className="text-xl font-semibold">$549.00 or 99.99/month</p>
+      <p className="text-xl font-semibold">${currentproduct.price}</p>
       <p className="text-sm text-gray-500">
         Suggested payments with 6 months special financing
       </p>
 
       {/* Color Picker */}
-      <div>
+      {/* <div>
         <p className="font-semibold mb-2">Choose a Color</p>
         <div className="flex gap-3">
           {["#d77c7c", "#333", "#ccc", "#d3e7d4", "#345"].map((color, i) => (
@@ -33,26 +41,27 @@ export default function ProductInfo() {
             ></div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* Quantity & Buttons */}
+      {count!=0 &&
       <div className="flex items-center gap-4 mt-4">
         <div className="flex items-center border px-3 py-1 rounded-full">
-          <button className="text-xl">−</button>
-          <span className="px-3">1</span>
-          <button className="text-xl">+</button>
+          <button className="text-xl" onClick={()=>{setcount(count=>count-1)}}>−</button>
+          <span className="px-3">{count}</span>
+          <button className="text-xl" onClick={()=>{setcount(count=>count+1)}}>+</button>
         </div>
         <span className="text-orange-600 text-sm font-medium">
           Only 12 Items Left!
         </span>
-      </div>
+      </div>}
 
       {/* Buttons */}
       <div className="flex gap-4 mt-4">
-        <button className="bg-green-900 text-white px-6 py-2 rounded-full">
+        <button className="bg-blue-800 hover:bg-blue-900 text-white px-6 py-2 rounded-full">
           Buy Now
         </button>
-        <button className="border border-black px-6 py-2 rounded-full">
+        <button className="border border px-6 py-2 rounded-full text-white bg-blue-600 hover:bg-blue-500" onClick={()=>{setcount(count=>count+1)}}>
           Add to Cart
         </button>
       </div>

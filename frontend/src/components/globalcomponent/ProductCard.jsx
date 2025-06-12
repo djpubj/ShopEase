@@ -1,46 +1,81 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useSetRecoilState } from "recoil";
+import { orderInCartState } from "../../data/atoms/atoms";
 
 export default function ProductCard({
+  productId,
   image,
   title,
   price,
   description,
   rating,
+  onClick,
 }) {
   const [liked, setLiked] = useState(false);
   const handlelikedClick = () => {
     setLiked(!liked);
   };
+  const setOrderCart = useSetRecoilState(orderInCartState);
+
+  const handleAddtoCartClick = () => {
+    const newProduct = {
+      productId: productId,
+      title: title,
+      imageUrl: image,
+      price: price,
+      quantity: 1,
+    };
+    setOrderCart((prevCart) => [...prevCart, newProduct]);
+  };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
   return (
-    <div className="bg-white rounded-2xl p-4  max-w-[240px] hover:shadow-lg transition">
-      <div className="relative">
-        <Link to="/ProductPage">
-          <img
-            src={image}
-            alt={title}
-            className="rounded-xl w-full h-[180px] object-contain
-        transition-transform duration-300 ease-in-out transform hover:scale-110"
-          />
-        </Link>
-        <HeartButton liked={liked} handleClick={handlelikedClick}/>
-      </div>
-      <div className="mt-4 space-y-1">
-        <Link to="/ProductPage">
-          <h3 className="font-semibold text-lg ">{title}</h3>
-        </Link>
-        <p className="text-gray-500 text-[10px]">{description}</p>
-        <div className="flex items-center text-green-600 font-bold text-sm">
-          {"★".repeat(rating)} <span className="text-black ml-2">({rating}.0)</span>
+    <div className="bg-white rounded-2xl p-4 max-w-[240px] h-[420px] flex flex-col justify-between hover:shadow-lg transition overflow-hidden">
+      <div>
+        <div className="relative h-[180px] overflow-hidden rounded-xl">
+          <Link to="/ProductPage">
+            <img
+              onClick={onClick}
+              src={image}
+              alt={title}
+              className="w-full h-full object-contain transition-transform duration-300 ease-in-out transform hover:scale-110"
+            />
+          </Link>
+          <HeartButton liked={liked} handleClick={handlelikedClick} />
         </div>
-        <Link to="/ProductPage">
-          <p className="text-lg font-bold"> &#8377; {price}.00</p>
-        </Link>
+
+        <div className="mt-4 space-y-1 overflow-hidden">
+          <Link to="/ProductPage">
+            <h3 className="font-semibold text-lg truncate" onClick={onClick}>
+              {title}
+            </h3>
+          </Link>
+          <p className="text-gray-500 text-[10px] line-clamp-2 leading-snug overflow-hidden">
+            {description.split(" ").slice(0, 10).join(" ")}...
+          </p>
+
+          <div className="flex items-center text-green-600 font-bold text-sm">
+            {"★".repeat(rating)}{" "}
+            <span className="text-black ml-2">({rating})</span>
+          </div>
+
+          <Link to="/ProductPage">
+            <p className="text-lg font-bold" onClick={onClick}>
+              {" "}
+              ${price}
+            </p>
+          </Link>
+        </div>
       </div>
+
       <button
-        className="mt-2 border rounded-full w-full py-1 text-white bg-blue-600 hover:bg-blue-500 "
-        onClick={null}
+        className="mt-3 border rounded-full w-full py-1 text-white bg-blue-600 hover:bg-blue-500"
+        onClick={handleAddtoCartClick}
       >
         Add to Cart
       </button>

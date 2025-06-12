@@ -3,7 +3,8 @@ import SummaryInCart from "@/components/cartpagecomponent/SummaryInCart";
 import CartProduct from "@/components/cartpagecomponent/CartProduct";
 import DeliveryInfo from "@/components/cartpagecomponent/DeliveryInfo";
 import DeliveryInfoEdit from "@/components/cartpagecomponent/DeliveryInfoEdit";
-import ReturningCustomerToggle from "@c/cartpagecomponent/ReturningCustomerToggle";
+import { useRecoilValue } from "recoil";
+import { orderInCartState } from "../data/atoms/atoms";
 
 export default function CartCheckout() {
   const [deliveryInfoEdit, setdeliveryInfoEdit] = useState(false);
@@ -20,10 +21,8 @@ export default function CartCheckout() {
             Home / <span className="text-black font-medium">Checkout</span>
           </p>
           {/* Product Review */}
-          <CartProduct />
 
-          {/* Returning Customer */}
-          <ReturningCustomerToggle />
+          <CartProduct/>
 
           {/* Delivery Info */}
 

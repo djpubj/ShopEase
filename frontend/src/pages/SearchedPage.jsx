@@ -1,6 +1,6 @@
 import React from "react";
 import demo from "@/assets/demo.png";
-import ProductList from "../components/ProductList";
+import ProductList from "@c/globalcomponent/ProductList";
 
 
 const filters = [

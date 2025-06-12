@@ -1,4 +1,5 @@
 import React from "react";
+import { FaHeart } from "react-icons/fa";
 
 const footerSections = [
   {
@@ -58,8 +59,8 @@ const Footer = () => {
             <a href={null} aria-label={"Google Play"}>
               <i className={"fab fa-google-play"}></i>
             </a>
-            <a href={null} aria-label={'App Store'}>
-              <i className={'fab fa-app-store-ios'}></i>
+            <a href={null} aria-label={"App Store"}>
+              <i className={"fab fa-app-store-ios"}></i>
             </a>
           </div>
           <div className="mt-4">
@@ -77,7 +78,10 @@ const Footer = () => {
 
       <div className="mt-10 border-t pt-4 text-center text-xs text-gray-500">
         <p>&copy; 2025 ShopEase. All rights reserved.</p>
-        <p className="mt-1">A product by ShopEase</p>
+        <p className="mt-1">
+          Made with <FaHeart className="text-red-600 text-l inline" /> by{" "}
+          <span className="font-bold">Deepanshu Verma</span>
+        </p>
       </div>
     </footer>
   );
