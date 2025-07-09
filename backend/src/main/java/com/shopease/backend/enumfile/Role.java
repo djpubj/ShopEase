@@ -1,4 +1,4 @@
-package com.shopease.backend.entity;
+package com.shopease.backend.enumfile;
 
 import java.util.Set;
 

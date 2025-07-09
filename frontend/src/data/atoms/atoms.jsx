@@ -17,7 +17,7 @@ export const orderInCartState=atom({
 })
 
 export const totalAmountState = atom({
-  key: 'totalAmountState',
+  key: 'totalamountsate',
   default: 0,
 });
 
@@ -26,3 +26,7 @@ export const currentProduct = atom({
   default: 0,
 });
 
+export const orderSuccessModal = atom({
+  key: 'ordersuccessmodel',
+  default: false,
+});

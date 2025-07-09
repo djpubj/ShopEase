@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { totalAmountState } from "../../data/atoms/atoms";
 import EmptyCartNotice from "./EmptyCartNotice";

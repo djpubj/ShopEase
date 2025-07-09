@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
-    private UserDetailsRepository customerDetailsRepository;
+    private UserDetailsRepository userDetailsRepository;
 
     @Override
     public UserDetails loadUserByUsername(String cutomername) throws UsernameNotFoundException {
-        return customerDetailsRepository.findByUsername(cutomername)
+        return userDetailsRepository.findByUsername(cutomername)
                 .orElseThrow(()-> new UsernameNotFoundException("Customername not found"));
     }
 

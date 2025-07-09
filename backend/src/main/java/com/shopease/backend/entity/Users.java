@@ -1,5 +1,6 @@
 package com.shopease.backend.entity;
 
+import com.shopease.backend.enumfile.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

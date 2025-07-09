@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useEffect } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { orderInCartState, totalAmountState } from "../../data/atoms/atoms";
-import { OrderInCartFetcher } from "../../data/CartProductfetcher";
 
 export default function CartProduct() {
   // const product = {

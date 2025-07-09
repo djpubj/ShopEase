@@ -1,49 +1,36 @@
+import dc from "@/assets/cards/dc.png";
+import gp from "@/assets/cards/gp.png";
+import pp from "@/assets/cards/pp.png";
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { totalAmountState } from "../../data/atoms/atoms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { orderInCartState, orderSuccessModal, totalAmountState } from "../../data/atoms/atoms";
+import PaymentInput from "./PaymentInput";
+
 
 export default function NotEmptyCart() {
-      const [selectedMethod, setSelectedMethod] = useState("card");
-    
-      const price = useRecoilValue(totalAmountState);
-    
-      const paymentMethods = [
-        { id: "cod", label: "Cash on Delivery" },
-        { id: "shopcart", label: "ShopEase Card" },
-        { id: "paypal", label: "Paypal" },
-        { id: "card", label: "Credit or Debit card", defaultChecked: true },
-      ];
-    
-      const summaryItems = [
-        { label: "Sub Total", value: `$${price.toFixed(2)}` },
-        { label: "Tax(10%)", value: `$${(price * 0.1).toFixed(2)}` },
-        { label: "Coupon Discount", value: `$${(price * 0.43).toFixed(2)}` },
-        { label: "Shipping Cost", value: "$0.00" },
-      ];
-    
-      const paymentInput = [
-        { label: "Email*", type: "email" },
-        { label: "Card Holder Name*", type: "text" },
-        {
-          label: "Card Number*",
-          type: "text",
-          placeholder: "0000******1245",
-        },
-        {
-          label: "Expiry",
-          type: "text",
-          placeholder: "MM/YY",
-          isHalf: true,
-        },
-        {
-          label: "CVC",
-          type: "text",
-          placeholder: "000",
-          isHalf: true,
-        },
-      ];
-    
-      const total = price + price * 0.1 - price * 0.43;
+  const [selectedMethod, setSelectedMethod] = useState("cod");
+  const price = useRecoilValue(totalAmountState);
+  const setCartProductList = useSetRecoilState(orderInCartState);
+  const [ordersuccessmodel, setordersuccessmodel] =
+      useRecoilState(orderSuccessModal);
+  const paymentMethods = [
+    { id: "cod", label: "Cash on Delivery" },
+    { id: "shopcart", label: "ShopEase Card" },
+    { id: "paypal", label: "Paypal" },
+    { id: "card", label: "Credit or Debit card", defaultChecked: true },
+  ];
+
+  const summaryItems = [
+    { label: "Sub Total", value: `$${price.toFixed(2)}` },
+    { label: "Tax(10%)", value: `$${(price * 0.1).toFixed(2)}` },
+    { label: "Coupon Discount", value: `$${(price * 0.43).toFixed(2)}` },
+    { label: "Shipping Cost", value: "$0.00" },
+  ];
+  const handleOnClickPay = () => {
+    setCartProductList((products) => []);
+    setordersuccessmodel(true);
+  };
+  const total = price + price * 0.1 - price * 0.43;
   return (
     <div>
       <h3 className="text-xl font-semibold">Order Summary</h3>
@@ -79,56 +66,25 @@ export default function NotEmptyCart() {
 
         <div className="flex gap-2 mt-2">
           <img
-            src="https://i.imgur.com/LhLExEV.png"
-            alt="Amazon"
-            className="h-6"
+            src={gp}
+            alt="Google pay"
+            className="h-10"
           />
           <img
-            src="https://i.imgur.com/xP8Yz3U.png"
+            src={pp}
             alt="MasterCard"
-            className="h-6"
+            className="h-10"
           />
           <img
-            src="https://i.imgur.com/Hs1zwn9.png"
-            alt="Visa"
-            className="h-6"
+            src={dc}
+            alt="Debit Card"
+            className="h-10"
           />
         </div>
       </div>
 
       {/* Payment Inputs */}
-      {selectedMethod !== "cod" && (
-        <div className="space-y-4 text-sm">
-          {paymentInput.map(({ label, type, placeholder, isHalf }, i, arr) =>
-            isHalf ? null : (
-              <div key={label}>
-                <label>{label}</label>
-                <input
-                  type={type}
-                  placeholder={placeholder}
-                  className="mt-1 block w-full border rounded-md px-3 py-2"
-                />
-              </div>
-            )
-          )}
-
-          <div className="flex gap-4">
-            {[
-              { label: "Expiry", placeholder: "MM/YY" },
-              { label: "CVC", placeholder: "000" },
-            ].map(({ label, placeholder }) => (
-              <div key={label} className="flex-1">
-                <label>{label}</label>
-                <input
-                  type="text"
-                  placeholder={placeholder}
-                  className="mt-1 block w-full border rounded-md px-3 py-2"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {selectedMethod !== "cod" && <PaymentInput />}
 
       {/* Summary Breakdown */}
       <div className="text-sm text-gray-700 space-y-1">
@@ -146,7 +102,10 @@ export default function NotEmptyCart() {
       </div>
 
       {/* Pay Button */}
-      <button className="w-full text-white py-3 my-4 rounded-xl font-medium text-lg bg-blue-600 hover:bg-blue-500">
+      <button
+        className="w-full text-white py-3 my-4 rounded-xl font-medium text-lg bg-blue-600 hover:bg-blue-500"
+        onClick={handleOnClickPay}
+      >
         Pay ${total.toFixed(2)}
       </button>
 

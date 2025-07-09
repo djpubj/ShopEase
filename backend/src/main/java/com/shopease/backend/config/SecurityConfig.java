@@ -1,6 +1,6 @@
 package com.shopease.backend.config;
 
-import com.shopease.backend.entity.Permissions;
+import com.shopease.backend.enumfile.Permissions;
 import com.shopease.backend.filter.JwtAuthFilter;
 import com.shopease.backend.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +13,17 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //tell spring that now i twig default security method
 @EnableMethodSecurity
 public class SecurityConfig {
 
@@ -30,39 +32,40 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
+        http.csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers
-                        .frameOptions(frame -> frame.disable())
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
+                ).sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/authenticate/**").permitAll()
-                                .requestMatchers("/adduser/**").permitAll()
+                        auth.requestMatchers("/api/authenticate").permitAll()
+                                .requestMatchers("/api/externalproduct/**").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
 //                                .requestMatchers("/api/products/admin").hasRole("ADMIN")
-                                .requestMatchers(HttpMethod.GET,"/api/products/**").hasAuthority(Permissions.PRODUCT_READ.name())
-                                .requestMatchers(HttpMethod.POST,"/api/products/**").hasAuthority(Permissions.PRODUCT_WRITE.name())
-                                .requestMatchers(HttpMethod.DELETE,"/api/products/**").hasAuthority(Permissions.PRODUCT_DELETE.name())
-
+                                .requestMatchers(HttpMethod.GET, "/api/products/**").hasAuthority(Permissions.PRODUCT_READ.name())
+                                .requestMatchers(HttpMethod.POST, "/api/products/**").hasAuthority(Permissions.PRODUCT_WRITE.name())
+                                .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAuthority(Permissions.PRODUCT_DELETE.name())
                                 .anyRequest().authenticated());
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return new CustomUserDetailsService();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService){
-        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider();
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         return new ProviderManager(daoAuthenticationProvider);
     }
 }

@@ -11,7 +11,7 @@ export const Productsfetcher = () => {
     }, []);
 
     const fetchproductlist = async () => {
-        const res1 = await fetch('https://fakestoreapi.com/products');
+        const res1 = await fetch('/api/externalproduct/all');
         const data1 = await res1.json();
         const converteddata1 = convertproductmodel1(data1);
         // console.log(converteddata1)

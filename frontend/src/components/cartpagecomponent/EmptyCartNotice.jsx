@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function EmptyCartNotice() {
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md mx-auto border text-center">
+    <div className="bg-white rounded-lg p-6 w-full max-w-md mx-auto  text-center">
       <h2 className="text-lg font-semibold mb-4 text-gray-800">
         Order Summary
       </h2>

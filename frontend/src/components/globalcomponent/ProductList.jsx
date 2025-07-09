@@ -1,21 +1,18 @@
-import React from "react";
-import ProductCard from "./ProductCard";
-import img1 from "@/assets/img/img1.png";
 import banner1 from "@/assets/banner1.png";
-import { Link } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   currentProduct,
   productDataState1,
   productDataState2,
 } from "../../data/atoms/atoms";
+import ProductCard from "./ProductCard";
 
 const ProductList = () => {
   const products = useRecoilValue(productDataState1);
   const setcurrentproduct = useSetRecoilState(currentProduct);
   const products2 = useRecoilValue(productDataState2);
   return (
-    <div className="flex flex-wrap gap-6 justify-center p-6 bg-gray-50">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 p-6 bg-gray-50 justify-items-center">
       {products != null &&
         products.map((p, index) => (
           <ProductCard
@@ -31,7 +28,7 @@ const ProductList = () => {
             }}
           />
         ))}
-      <div className="w-full">
+      <div className="col-span-full w-full ">
         <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] h-64 md:h-96 mt-6">
           <img
             src={banner1}

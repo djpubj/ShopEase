@@ -1,5 +1,5 @@
 package com.shopease.backend.service;
-import com.shopease.backend.entity.Role;
+import com.shopease.backend.enumfile.Role;
 import com.shopease.backend.entity.Users;
 import com.shopease.backend.repository.UserDetailsRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -20,7 +20,7 @@ public class AdminUserInitializer {
                 admin.setRole(Role.ADMIN);
 
                 userRepository.save(admin);
-                System.out.println("Default admin user created!");
+                System.out.println("Default admin  created!");
             }
             if (userRepository.findByUsername("user").isEmpty()) {
                 Users admin = new Users();
@@ -29,7 +29,7 @@ public class AdminUserInitializer {
                 admin.setRole(Role.USER);
 
                 userRepository.save(admin);
-                System.out.println("Default admin user created!");
+                System.out.println("Default user created!");
             }
         };
     }

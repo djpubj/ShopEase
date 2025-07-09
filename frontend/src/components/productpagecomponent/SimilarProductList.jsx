@@ -1,14 +1,10 @@
-import React from "react";
-import ProductCard from "../globalcomponent/ProductCard";
-import img1 from "@/assets/img/img1.png";
-import img2 from "@/assets/img/img2.png";
-import ProductList from "../globalcomponent/ProductList";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   currentProduct,
   productDataState1,
   productDataState2,
 } from "../../data/atoms/atoms";
-import { useRecoilState, useRecoilValue } from "recoil";
+import ProductCard from "../globalcomponent/ProductCard";
 
 // const products = [
 //   {
