@@ -33,17 +33,17 @@ export default function Header() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const navigate = useNavigate();
-  const handleAccountPage = () => {
-    navigate("/account");
-  };
-
   // Toggle functions
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const toggleSearch = () => setIsSearchOpen((prev) => !prev);
   const cartProductList = useRecoilValue(orderInCartState);
   const cartCount = cartProductList.length;
+
+  const navigate = useNavigate();
+  const handleAccountPage = () => {
+    toggleMenu();
+    navigate("/account");
+  };
 
   return (
     <header className=" sticky top-0 z-50 bg-white">
@@ -68,13 +68,14 @@ export default function Header() {
       <div className="flex items-center justify-between px-4 sm:px-6 py-4 shadow relative">
         {/* Logo */}
         <div className="flex items-center gap-2 text-blue-800 text-lg sm:text-xl font-bold">
-          <img
-            src={logo}
-            alt="Shopcart logo"
-            className="w-6 h-6 sm:w-8 sm:h-8"
-            loading="lazy"
-          />
-          <Link to="/">
+          
+          <Link to="/" className="flex items-center gap-2">
+            <img
+              src={logo}
+              alt="Shopcart logo"
+              className="w-6 h-6 sm:w-8 sm:h-8"
+              loading="lazy"
+            />
             <span className="hidden sm:inline">ShopEase</span>
           </Link>
         </div>
@@ -128,7 +129,10 @@ export default function Header() {
 
         {/* Account & Cart - Desktop */}
         <div className="hidden sm:flex items-center gap-4 lg:gap-6 text-gray-800">
-          <p className="flex items-center gap-1 hover:text-blue-800 transition-colors" onClick={handleAccountPage}>
+          <p
+            className="flex items-center gap-1 hover:text-blue-800 transition-colors"
+            onClick={handleAccountPage}
+          >
             <FaUser aria-hidden="true" />{" "}
             <span className="hidden md:inline">Account</span>
           </p>
@@ -192,18 +196,20 @@ export default function Header() {
             className="absolute top-full left-0 right-0 bg-white shadow-lg sm:hidden transition-all duration-300 ease-in-out"
           >
             <div className="flex flex-col p-4 space-y-4 text-gray-800">
-              <a
-                href="#"
+              <p
+                onClick={handleAccountPage}
                 className="flex items-center gap-2 border-b pb-2 hover:text-blue-800 transition-colors"
               >
                 <FaUser aria-hidden="true" /> Account
-              </a>
-              <a
-                href="#"
-                className="flex items-center gap-2 border-b pb-2 hover:text-blue-800 transition-colors"
-              >
-                <FaShoppingCart aria-hidden="true" /> Cart
-              </a>
+              </p>
+              <Link to="/CartCheckout">
+                <p
+                  onClick={toggleMenu}
+                  className="flex items-center gap-2 border-b pb-2 hover:text-blue-800 transition-colors"
+                >
+                  <FaShoppingCart aria-hidden="true" /> Cart
+                </p>
+              </Link>
               <div className="flex items-center gap-2 border-b pb-2 cursor-pointer hover:text-blue-800 transition-colors">
                 Category{" "}
                 <FaChevronDown className="text-xs" aria-hidden="true" />

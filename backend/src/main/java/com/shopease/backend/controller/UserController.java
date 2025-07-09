@@ -1,26 +1,28 @@
 package com.shopease.backend.controller;
 
 import com.shopease.backend.entity.AuthRequest;
-import com.shopease.backend.entity.Role;
+import com.shopease.backend.enumfile.Role;
 import com.shopease.backend.entity.Users;
 import com.shopease.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
+    @GetMapping("/check")
+    public String check() {
+        return "hello /api/user checked";
+    }
 
     @PostMapping("/adduser")
     public String addUser(@RequestBody AuthRequest authRequest) {
@@ -29,7 +31,7 @@ public class UserController {
         users.setPassword(passwordEncoder.encode(authRequest.getPassword()));
         users.setRole(Role.USER);
         Users saveUser = userService.adduser(users);
-        String token=userService.generateToken(authRequest);
+        String token = userService.generateToken(authRequest);
         return token;
     }
 }

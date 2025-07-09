@@ -2,13 +2,16 @@ package com.shopease.backend.controller;
 
 
 import com.shopease.backend.entity.Products;
+import com.shopease.backend.enumfile.Role;
 import com.shopease.backend.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/products")
@@ -18,6 +21,10 @@ public class ProductController {
     // Constructor injection
     public ProductController(ProductService productService) {
         this.productService = productService;
+    }
+    @GetMapping("/check")
+    public String check() {
+        return "hello  -- /api/products -- api working";
     }
 
     // GET all products
@@ -49,13 +56,5 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
-
-//
-//    @GetMapping("/grants")
-//    public List<String> getAllRoles() {
-//        return Arrays.stream(Role.values())
-//                .map(Enum::name)
-//                .collect(Collectors.toList());
-//    }
 
 }
