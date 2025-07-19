@@ -26,7 +26,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity //tell spring that now i twig default security method
 @EnableMethodSecurity
 public class SecurityConfig {
-
     @Autowired
     JwtAuthFilter jwtAuthFilter;
 
@@ -42,7 +41,7 @@ public class SecurityConfig {
                         auth.requestMatchers("/api/authenticate").permitAll()
                                 .requestMatchers("/api/externalproduct/**").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
-//                                .requestMatchers("/api/products/admin").hasRole("ADMIN")
+                                .requestMatchers("/actuator/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/products/**").hasAuthority(Permissions.PRODUCT_READ.name())
                                 .requestMatchers(HttpMethod.POST, "/api/products/**").hasAuthority(Permissions.PRODUCT_WRITE.name())
                                 .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAuthority(Permissions.PRODUCT_DELETE.name())
