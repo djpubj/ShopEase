@@ -42,9 +42,9 @@ public class SecurityConfig {
                                 .requestMatchers("/api/externalproduct/**").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/actuator/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/product/**").hasAuthority(Permissions.PRODUCT_READ.name())
-                                .requestMatchers(HttpMethod.POST, "/api/product/**").hasAuthority(Permissions.PRODUCT_WRITE.name())
-                                .requestMatchers(HttpMethod.DELETE, "/api/product/**").hasAuthority(Permissions.PRODUCT_DELETE.name())
+                                .requestMatchers(HttpMethod.GET, "/api/products/**").hasAuthority(Permissions.PRODUCT_READ.name())
+                                .requestMatchers(HttpMethod.POST, "/api/products/**").hasAuthority(Permissions.PRODUCT_WRITE.name())
+                                .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAuthority(Permissions.PRODUCT_DELETE.name())
                                 .anyRequest().authenticated());
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

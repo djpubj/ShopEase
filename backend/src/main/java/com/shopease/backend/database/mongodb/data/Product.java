@@ -1,6 +1,7 @@
 package com.shopease.backend.database.mongodb.data;
 
 
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,9 +17,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long productid;
-    String name;
-    String description;
+    Long id;
+    String title;
     double price;
-    int quantity;
+    String description;
+    String category;
+    String image;
+    Rating rating;
+
+    @Getter
+    @Setter
+    static class Rating{
+        public double rate;
+        public int count;
+    }
+
 }
