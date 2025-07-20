@@ -1,7 +1,6 @@
 package com.shopease.backend.util;
 
-import com.shopease.backend.entity.AuthRequest;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.shopease.backend.database.mysql.entity.AuthRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;

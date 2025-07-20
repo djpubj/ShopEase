@@ -1,6 +1,6 @@
-package com.shopease.backend.repository;
+package com.shopease.backend.database.mysql.repository;
 
-import com.shopease.backend.entity.Users;
+import com.shopease.backend.database.mysql.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,10 +1,9 @@
 package com.shopease.backend.controller;
 
-import com.shopease.backend.entity.AuthRequest;
+import com.shopease.backend.database.mysql.entity.AuthRequest;
 import com.shopease.backend.enumfile.Role;
-import com.shopease.backend.entity.Users;
+import com.shopease.backend.database.mysql.entity.Users;
 import com.shopease.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +29,7 @@ public class UserController {
         users.setUsername(authRequest.getUsername());
         users.setPassword(passwordEncoder.encode(authRequest.getPassword()));
         users.setRole(Role.USER);
-        Users saveUser = userService.adduser(users);
-        String token = userService.generateToken(authRequest);
-        return token;
+        userService.adduser(users);
+        return userService.generateToken(authRequest);
     }
 }

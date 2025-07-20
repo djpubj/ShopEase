@@ -1,7 +1,7 @@
 package com.shopease.backend.service;
 
-import com.shopease.backend.entity.Products;
-import com.shopease.backend.repository.ProductRepository;
+import com.shopease.backend.database.h2.entity.Products;
+import com.shopease.backend.database.h2.repository.ProductRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

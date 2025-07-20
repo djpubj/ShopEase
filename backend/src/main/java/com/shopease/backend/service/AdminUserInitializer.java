@@ -1,7 +1,7 @@
 package com.shopease.backend.service;
 import com.shopease.backend.enumfile.Role;
-import com.shopease.backend.entity.Users;
-import com.shopease.backend.repository.UserDetailsRepository;
+import com.shopease.backend.database.mysql.entity.Users;
+import com.shopease.backend.database.mysql.repository.UserDetailsRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;

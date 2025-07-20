@@ -1,7 +1,8 @@
 package com.shopease.backend.service;
 
-import com.shopease.backend.entity.Products;
-import com.shopease.backend.repository.ProductRepository;
+
+import com.shopease.backend.database.mongodb.data.Product;
+import com.shopease.backend.database.mongodb.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,15 +16,15 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Products> getAllProducts(){
+    public List<Product> getAllProducts(){
         return productRepository.findAll();
     }
 
-    public Optional<Products> getProductById(Long productId) {
+    public Optional<Product> getProductById(Long productId) {
         return productRepository.findByProductid(productId);
     }
 
-    public Products saveProduct(Products product) {
+    public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
 

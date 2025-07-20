@@ -1,20 +1,16 @@
 package com.shopease.backend.controller;
 
-
-import com.shopease.backend.entity.Products;
-import com.shopease.backend.enumfile.Role;
+import com.shopease.backend.database.mongodb.data.Product;
 import com.shopease.backend.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/product")
 public class ProductController {
     private final ProductService productService;
 
@@ -29,28 +25,28 @@ public class ProductController {
 
     // GET all products
     @GetMapping("/all")
-    public ResponseEntity<List<Products>> getAllProducts() {
+    public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
     // GET product by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Products> getProductById(@PathVariable("id") Long id) {
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
         return productService.getProductById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     // POST new product
-    @PostMapping("/admin")
+    @PostMapping("/admin/addproduct")
     @PreAuthorize("hasAuthority('PRODUCT_WRITE')")
-    public ResponseEntity<Products> createProduct(@RequestBody Products product) {
-        Products savedProduct = productService.saveProduct(product);
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        Product savedProduct = productService.saveProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
     }
 
     // DELETE product
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/admin/deleteproduct/{id}")
     @PreAuthorize("hasAuthority('PRODUCT_DELETE')")
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
