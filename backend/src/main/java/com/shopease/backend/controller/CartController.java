@@ -30,6 +30,12 @@ public class CartController {
         return cart.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    @GetMapping("/userid/{id}")
+    public ResponseEntity<Cart> getCartByUserId(@PathVariable long id) {
+        Optional<Cart> cart = cartService.getCartByUserId(id);
+        return cart.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     @PostMapping
     public ResponseEntity<Cart> createCart(@RequestBody Cart cart) {

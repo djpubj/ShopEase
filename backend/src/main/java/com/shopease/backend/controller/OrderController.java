@@ -32,6 +32,12 @@ public class OrderController {
         return order.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+    @GetMapping("/userid/{id}")
+    public ResponseEntity<Order> getUserById(@PathVariable long id) {
+        Optional<Order> order = orderService.getOrderByUserId(id);
+        return order.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {

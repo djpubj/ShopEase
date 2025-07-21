@@ -23,10 +23,16 @@ public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
+    private String fullName;
+    private String gmail;
     private String password;
     private String addressId;
     private Role role;
+
+    @Override
+    public String getUsername() {
+        return this.gmail;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

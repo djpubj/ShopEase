@@ -3,12 +3,12 @@ package com.shopease.backend.controller;
 import com.shopease.backend.database.mysql.entity.AuthRequest;
 import com.shopease.backend.enumfile.Role;
 import com.shopease.backend.util.TokenGenerateUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")

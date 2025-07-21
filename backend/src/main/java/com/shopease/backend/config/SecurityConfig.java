@@ -42,6 +42,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/externalproduct/**").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/actuator/**").permitAll()
+                                .requestMatchers("/api/user/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/products/**").hasAuthority(Permissions.PRODUCT_READ.name())
                                 .requestMatchers(HttpMethod.POST, "/api/products/**").hasAuthority(Permissions.PRODUCT_WRITE.name())
                                 .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasAuthority(Permissions.PRODUCT_DELETE.name())

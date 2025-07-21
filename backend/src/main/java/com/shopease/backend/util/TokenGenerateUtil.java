@@ -17,9 +17,9 @@ public class TokenGenerateUtil {
     public String generateToken(AuthRequest authRequest) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(authRequest.getGmail(), authRequest.getPassword())
             );
-            return jwtUtil.generateToken(authRequest.getUsername());
+            return jwtUtil.generateToken(authRequest.getGmail());
         } catch (Exception e) {
             throw e;
         }

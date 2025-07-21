@@ -1,6 +1,7 @@
 package com.shopease.backend.service;
 
 import com.shopease.backend.database.mongodb.data.Cart;
+import com.shopease.backend.database.mongodb.data.Order;
 import com.shopease.backend.database.mongodb.repository.CartRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -21,6 +22,9 @@ public class CartService {
 
     public Optional<Cart> getCartById(long id) {
         return cartRepository.findById(id);
+    }
+    public Optional<Cart> getCartByUserId(long userId) {
+        return cartRepository.findById(userId);
     }
 
     public Cart saveCart(Cart cart) {

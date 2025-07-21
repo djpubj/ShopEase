@@ -37,6 +37,7 @@ public class ProductController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+
     // POST new product
     @PostMapping("/admin/addproduct")
     @PreAuthorize("hasAuthority('PRODUCT_WRITE')")

@@ -1,26 +1,10 @@
 
-// const OrderInCart = [
-//     {
-//         orderId: "",
-//         UserId: "",
-//         products: [{
-//             productId: "",
-//             title: "",
-//             imageUrl: "",
-//             price: "",
-//             quantity: ""
-//         }],
-//     }
-// ]
-
-// components/OrderCartFetcher.js
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { orderInCartState, totalAmountState } from './atoms/atoms';
 
 export const OrderInCartFetcher = () => {
     const [, setOrderCart] = useRecoilState(orderInCartState);
-    // const [, setTotal] = useRecoilState(totalAmountState);
 
     useEffect(() => {
         fetchOrderData();
@@ -28,14 +12,21 @@ export const OrderInCartFetcher = () => {
 
     const fetchOrderData = async () => {
         try {
-            const res = await fetch('https://fakestoreapi.com/products?limit=5'); // Sample API with cart data
+            const res = await fetch('https://fakestoreapi.com/products?limit=5');
+
+            const resw = await fetch(`http://localhost/api/carts/${id}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }}
+            );
+
             const data = await res.json();
 
             const mappedOrders = convertToOrderModel(data);
             setOrderCart(mappedOrders);
-            // const total = calculateTotalAmount(mappedOrders);
-            // console.log('Total Amount:', total);
-            // setTotal(total);
+
             console.log(mappedOrders);
         } catch (err) {
             console.error('Error fetching order cart:', err);
@@ -52,11 +43,5 @@ export const OrderInCartFetcher = () => {
         }));
     };
 
-    // const calculateTotalAmount = (products) => {
-    //     return products.reduce((total, product) => {
-    //         return total + (product.price || 0) * (product.quantity || 1);
-    //     }, 0);
-    // };
-
-    return null; // no UI, just for data fetching
+    return null;
 };

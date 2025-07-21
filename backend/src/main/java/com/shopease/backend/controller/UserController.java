@@ -1,6 +1,7 @@
 package com.shopease.backend.controller;
 
 import com.shopease.backend.database.mysql.entity.AuthRequest;
+import com.shopease.backend.dto.UserRecieved;
 import com.shopease.backend.enumfile.Role;
 import com.shopease.backend.database.mysql.entity.Users;
 import com.shopease.backend.service.UserService;
@@ -24,11 +25,18 @@ public class UserController {
     }
 
     @PostMapping("/adduser")
-    public String addUser(@RequestBody AuthRequest authRequest) {
+    public String addUser(@RequestBody UserRecieved userRecieved) {
+        if(userRecieved.getGmail()==null || userRecieved.getPassword()==null){
+            return "Please give gmail and password correctly";
+        }
         Users users = new Users();
-        users.setUsername(authRequest.getUsername());
-        users.setPassword(passwordEncoder.encode(authRequest.getPassword()));
+        users.setGmail(userRecieved.getGmail());
+        users.setFullName(userRecieved.getFullname());
+        users.setPassword(passwordEncoder.encode(userRecieved.getPassword()));
         users.setRole(Role.USER);
+        AuthRequest authRequest=new AuthRequest();
+        authRequest.setGmail(userRecieved.getGmail());
+        authRequest.setPassword(userRecieved.getPassword());
         userService.adduser(users);
         return userService.generateToken(authRequest);
     }
