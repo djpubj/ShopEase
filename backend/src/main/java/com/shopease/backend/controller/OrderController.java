@@ -1,7 +1,7 @@
 package com.shopease.backend.controller;
 
 import com.shopease.backend.database.mongodb.data.Order;
-import com.shopease.backend.service.OrderService;
+import com.shopease.backend.database.mongodb.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

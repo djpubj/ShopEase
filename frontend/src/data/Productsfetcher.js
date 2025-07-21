@@ -24,7 +24,7 @@ export const Productsfetcher = () => {
 
     const convertproductmodel1 = (data) => {
         const productlists = data.map((item) => ({
-            _id: item.id,
+            itemId: item.id,
             title: item.title,
             description: item.description,
             price: item.price,

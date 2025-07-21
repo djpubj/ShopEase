@@ -17,7 +17,7 @@ const ProductList = () => {
         products.map((p, index) => (
           <ProductCard
             key={index}
-            productId={p.productId}
+            itemId={p.itemId}
             image={p.imageUrl}
             title={p.title}
             price={p.price}

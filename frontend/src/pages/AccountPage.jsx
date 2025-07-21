@@ -1,24 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { GetUserId } from "../data/Check";
+
 
 export default function AccountPage() {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null); // store fetched user
 
-  const User = {
-    id: "1",
-    firstName: "Aditya",
-    lastName: "Pandey",
-    phoneNumber: "+91 9884552464",
-    gmail: "adityaPandey23@gmail.com",
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userId = GetUserId();
+
+      if (!userId) {
+        console.error("User ID not found in cookies");
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/user/getbyid", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({userId}),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
+        } else {
+          console.error("Failed to fetch user data");
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        navigate("/LoginPage");
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
-  const handleLogout = () => {
-    // Add your logout logic here (e.g. clear localStorage, reset auth state)
-    // localStorage.clear();
-    // authContext.logout();
-    navigate("/LoginPage");
-  };
+  if (!user) {
+    return <div className="p-10 text-center">Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-6 sm:px-12">
@@ -28,27 +69,25 @@ export default function AccountPage() {
           <FaUserCircle className="text-blue-800 text-4xl" />
           <div>
             <h2 className="text-2xl font-semibold text-gray-800">My Account</h2>
-            <p className="text-sm text-gray-500">Welcome back, {User.firstName}!</p>
+            <p className="text-sm text-gray-500">
+              Welcome back, {user.fullname}!
+            </p>
           </div>
         </div>
 
         {/* User Info */}
         <div className="space-y-4 text-gray-700">
           <div className="flex justify-between">
-            <span className="font-medium">First Name:</span>
-            <span>{User.firstName}</span>
+            <span className="font-medium">Name:</span>
+            <span>{user.fullname}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="font-medium">Last Name:</span>
-            <span>{User.lastName}</span>
-          </div>
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <span className="font-medium">Phone Number:</span>
-            <span>{User.phoneNumber}</span>
-          </div>
+            <span>{user.phoneNumber}</span>
+          </div> */}
           <div className="flex justify-between">
             <span className="font-medium">Email:</span>
-            <span>{User.gmail}</span>
+            <span>{user.gmail}</span>
           </div>
         </div>
 

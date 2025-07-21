@@ -1,7 +1,8 @@
 package com.shopease.backend.controller;
 
 import com.shopease.backend.database.mongodb.data.Cart;
-import com.shopease.backend.service.CartService;
+import com.shopease.backend.database.mongodb.service.CartService;
+import com.shopease.backend.dto.IdDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,9 +31,10 @@ public class CartController {
         return cart.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
-    @GetMapping("/userid/{id}")
-    public ResponseEntity<Cart> getCartByUserId(@PathVariable long id) {
-        Optional<Cart> cart = cartService.getCartByUserId(id);
+    @PostMapping("/userid")
+    public ResponseEntity<List<Cart>> getCartByUserId(@RequestBody IdDto id) {
+        long id1 = Long.parseLong(id.getId());
+        Optional<List<Cart>> cart = cartService.getCartByUserId(id1);
         return cart.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

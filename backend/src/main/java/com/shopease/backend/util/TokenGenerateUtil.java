@@ -1,6 +1,6 @@
 package com.shopease.backend.util;
 
-import com.shopease.backend.database.mysql.entity.AuthRequest;
+import com.shopease.backend.entity.AuthRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class TokenGenerateUtil {
             );
             return jwtUtil.generateToken(authRequest.getGmail());
         } catch (Exception e) {
-            throw e;
+            return null;
         }
     }
 }

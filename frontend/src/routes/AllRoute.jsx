@@ -19,6 +19,7 @@ export default function AllRoute() {
       <Route path="/SignupPage" element={<SignupPage />} />
       <Route path="/SearchedPage" element={<SearchedPage/>}/>
       <Route path="/account" element={<AccountPage />} />
+      {/* <Route path="/"/> */}
     </Routes>
     </>
   );

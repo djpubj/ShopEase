@@ -1,18 +1,14 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { orderInCartState, totalAmountState } from "../../data/atoms/atoms";
+import { GetUserId } from "../../data/Check"; // Assume this returns userId from cookie
 
 export default function CartProduct() {
-  // const product = {
-  //   img: "https://i.imgur.com/PljC9Fn.png",
-  //   name: "Airpods - Max",
-  //   price: 549.0,
-  //   quantity: 1,
-  // };
   const [cartProductList, setCartProductList] =
     useRecoilState(orderInCartState);
-  console.log(cartProductList);
   const setTotal = useSetRecoilState(totalAmountState);
+  const [loading, setLoading] = useState(true);
+
   const handleQuantityChange = (productId, delta) => {
     setCartProductList((prevList) =>
       prevList
@@ -24,9 +20,63 @@ export default function CartProduct() {
         .filter((item) => item.quantity > 0)
     );
   };
+
   useEffect(() => {
-    setTotal((total) => (total = calculateTotalAmount(cartProductList)));
+    const fetchCartAndProducts = async () => {
+      try {
+        const userId = GetUserId();
+
+        const res = await fetch("/api/carts/userid", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: userId }),
+        });
+
+        const cartItems = await res.json();
+        console.log("🛒 Cart Items:", cartItems);
+
+        const fullCartData = await Promise.all(
+          cartItems.map(async (item) => {
+            console.log("item check",item);
+            const productRes = await fetch("/api/products/byid", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ id: item.itemId }),
+            });
+            const product = await productRes.json();
+            console.log("📦 Product Fetched:", product);
+
+            return {
+              productId: product.id,
+              title: product.title,
+              price: product.price,
+              imageUrl: product.image,
+              quantity: 1,
+            };
+          })
+        );
+
+        setCartProductList(fullCartData);
+        setTotal(calculateTotalAmount(fullCartData));
+      } catch (err) {
+        console.error("Error fetching cart:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCartAndProducts();
+  }, []);
+
+  useEffect(() => {
+    setTotal(calculateTotalAmount(cartProductList));
   }, [cartProductList]);
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="space-y-4">
@@ -43,16 +93,14 @@ export default function CartProduct() {
           <div className="flex-1">
             <h2 className="text-xl font-semibold">{product.title}</h2>
             <p className="text-gray-800 font-semibold mt-2">
-              ${product.price.toFixed(2)}
+              ${Number(product.price).toFixed(2)}
             </p>
             <div className="flex items-center gap-3 text-sm text-gray-700">
               <span className="font-medium">Qty:</span>
-              <div className="flex items-center border border-gray-300 rounded-full px-3 py-1 ">
+              <div className="flex items-center border border-gray-300 rounded-full px-3 py-1">
                 <button
                   className="text-lg text-gray-300 hover:text-gray-800 px-1"
-                  onClick={() => {
-                    handleQuantityChange(product.productId, -1);
-                  }}
+                  onClick={() => handleQuantityChange(product.productId, -1)}
                 >
                   −
                 </button>
@@ -61,9 +109,7 @@ export default function CartProduct() {
                 </span>
                 <button
                   className="text-lg text-gray-300 hover:text-gray-800 px-1"
-                  onClick={() => {
-                    handleQuantityChange(product.productId, 1);
-                  }}
+                  onClick={() => handleQuantityChange(product.productId, 1)}
                 >
                   +
                 </button>

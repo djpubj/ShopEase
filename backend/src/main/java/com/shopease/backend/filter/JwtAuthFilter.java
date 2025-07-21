@@ -4,6 +4,7 @@ import com.shopease.backend.service.CustomUserDetailsService;
 import com.shopease.backend.util.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
+//        String cookie = request.getHeader("Authorization");
         String token = null;
+        String userId=null;
         String username=null;
-        if(authHeader!=null && authHeader.startsWith("Bearer ")){
-            token=authHeader.substring(7);
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("token".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                }
+                if ("id".equals(cookie.getName())) {
+                    userId = cookie.getValue();
+                }
+            }
+        }
+
+
+        if(token!=null){
+//            token=cookie.substring(7);
             username=jwtUtil.extractUsername(token);
         }
         if(username !=null && SecurityContextHolder.getContext().getAuthentication()==null){
@@ -45,4 +61,24 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request,response);
     }
+
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        String cookie = request.getHeader("Authorization");
+//        String token = null;
+//        String username=null;
+//        if(cookie!=null && cookie.startsWith("Bearer ")){
+//            token=cookie.substring(7);
+//            username=jwtUtil.extractUsername(token);
+//        }
+//        if(username !=null && SecurityContextHolder.getContext().getAuthentication()==null){
+//            UserDetails userDetails=customUserDetailsService.loadUserByUsername(username);
+//            if(jwtUtil.validateToken(username,userDetails,token)){
+//                UsernamePasswordAuthenticationToken authToken=new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+//                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//                SecurityContextHolder.getContext().setAuthentication(authToken);
+//            }
+//        }
+//        filterChain.doFilter(request,response);
+//    }
 }

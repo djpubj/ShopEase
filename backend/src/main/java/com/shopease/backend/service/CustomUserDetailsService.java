@@ -1,7 +1,6 @@
 package com.shopease.backend.service;
 
 import com.shopease.backend.database.mysql.repository.UserDetailsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

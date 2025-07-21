@@ -1,4 +1,4 @@
-package com.shopease.backend.service;
+package com.shopease.backend.database.mongodb.service;
 
 
 import com.shopease.backend.database.mongodb.data.Product;

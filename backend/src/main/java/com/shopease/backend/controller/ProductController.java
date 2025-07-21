@@ -1,7 +1,8 @@
 package com.shopease.backend.controller;
 
 import com.shopease.backend.database.mongodb.data.Product;
-import com.shopease.backend.service.ProductService;
+import com.shopease.backend.database.mongodb.service.ProductService;
+import com.shopease.backend.dto.IdDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,9 +31,10 @@ public class ProductController {
     }
 
     // GET product by ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) {
-        return productService.getProductById(id)
+    @PostMapping("/byid")
+    public ResponseEntity<Product> getProductById(@RequestBody IdDto id) {
+        long id1 = Long.parseLong(id.getId());
+        return productService.getProductById(id1)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { orderInCartState } from "../../data/atoms/atoms";
+import { GetUserId } from "../../data/Check";
+import LoginPopUp from "./LoginPopUp";
 
 export default function ProductCard({
-  productId,
+  itemId,
   image,
   title,
   price,
@@ -17,17 +19,56 @@ export default function ProductCard({
   const handlelikedClick = () => {
     setLiked(!liked);
   };
+  const navigate = useNavigate();
   const setOrderCart = useSetRecoilState(orderInCartState);
+  const [modal, setModal] = useState(false);
+  const handleOnConfirmModel = () => {
+    setModal(!modal);
+    navigate("/LoginPage");
+  };
+  const handleonCancelModel = () => setModal(!modal);
 
-  const handleAddtoCartClick = () => {
-    const newProduct = {
-      productId: productId,
-      title: title,
-      imageUrl: image,
-      price: price,
-      quantity: 1,
+  const handleAddtoCartClick = async () => {
+    const userId = GetUserId();
+    if (!userId) {
+      setModal(true);
+      return;
+    }
+
+    const cartItem = {
+      userId: Number(userId),
+      addressId: "null", // Or provide real address if available
+      itemId: Number(itemId),
     };
-    setOrderCart((prevCart) => [...prevCart, newProduct]);
+
+    try {
+      const response = await fetch("/api/carts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartItem),
+      });
+
+      if (response.ok) {
+        const addedCartItem = await response.json();
+        const newProduct = {
+          itemId: addedCartItem.itemId,
+          title: title,
+          imageUrl: image,
+          price: price,
+          quantity: 1,
+        };
+        setOrderCart((prevCart) => [...prevCart, newProduct]);
+        alert("Item added to cart successfully!");
+      } else {
+        const errorText = await response.text();
+        alert("Failed to add to cart: " + errorText);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Something went wrong while adding to cart.");
+    }
   };
 
   useEffect(() => {
@@ -35,51 +76,60 @@ export default function ProductCard({
   }, []);
 
   return (
-    <div className="bg-white rounded-2xl p-4 max-w-[240px] h-[420px] flex flex-col justify-between hover:shadow-lg transition overflow-hidden">
-      <div>
-        <div className="relative h-[180px] overflow-hidden rounded-xl">
-          <Link to="/ProductPage">
-            <img
-              onClick={onClick}
-              src={image}
-              alt={title}
-              className="w-full h-full object-contain transition-transform duration-300 ease-in-out transform hover:scale-110"
-            />
-          </Link>
-          <HeartButton liked={liked} handleClick={handlelikedClick} />
-        </div>
-
-        <div className="mt-4 space-y-1 overflow-hidden">
-          <Link to="/ProductPage">
-            <h3 className="font-semibold text-lg truncate" onClick={onClick}>
-              {title}
-            </h3>
-          </Link>
-          <p className="text-gray-500 text-[10px] line-clamp-2 leading-snug overflow-hidden">
-            {description.split(" ").slice(0, 10).join(" ")}...
-          </p>
-
-          <div className="flex items-center text-green-600 font-bold text-sm">
-            {"★".repeat(rating)}{" "}
-            <span className="text-black ml-2">({rating})</span>
+    <>
+      <div className="bg-white rounded-2xl p-4 max-w-[240px] h-[420px] flex flex-col justify-between hover:shadow-lg transition overflow-hidden">
+        <div>
+          <div className="relative h-[180px] overflow-hidden rounded-xl">
+            <Link to="/ProductPage">
+              <img
+                onClick={onClick}
+                src={image}
+                alt={title}
+                className="w-full h-full object-contain transition-transform duration-300 ease-in-out transform hover:scale-110"
+              />
+            </Link>
+            <HeartButton liked={liked} handleClick={handlelikedClick} />
           </div>
 
-          <Link to="/ProductPage">
-            <p className="text-lg font-bold" onClick={onClick}>
-              {" "}
-              ${price}
+          <div className="mt-4 space-y-1 overflow-hidden">
+            <Link to="/ProductPage">
+              <h3 className="font-semibold text-lg truncate" onClick={onClick}>
+                {title}
+              </h3>
+            </Link>
+            <p className="text-gray-500 text-[10px] line-clamp-2 leading-snug overflow-hidden">
+              {description.split(" ").slice(0, 10).join(" ")}...
             </p>
-          </Link>
-        </div>
-      </div>
 
-      <button
-        className="mt-3 border rounded-full w-full py-1 text-white bg-blue-600 hover:bg-blue-500"
-        onClick={handleAddtoCartClick}
-      >
-        Add to Cart
-      </button>
-    </div>
+            <div className="flex items-center text-green-600 font-bold text-sm">
+              {"★".repeat(rating)}{" "}
+              <span className="text-black ml-2">({rating})</span>
+            </div>
+
+            <Link to="/ProductPage">
+              <p className="text-lg font-bold" onClick={onClick}>
+                {" "}
+                ${price}
+              </p>
+            </Link>
+          </div>
+        </div>
+
+        <button
+          className="mt-3 border rounded-full w-full py-1 text-white bg-blue-600 hover:bg-blue-500"
+          onClick={handleAddtoCartClick}
+        >
+          Add to Cart
+        </button>
+      </div>
+      {modal && (
+        <LoginPopUp
+          message="Please Login First"
+          onConfirm={handleOnConfirmModel}
+          onCancel={handleonCancelModel}
+        />
+      )}
+    </>
   );
 }
 

@@ -1,7 +1,6 @@
-package com.shopease.backend.service;
+package com.shopease.backend.database.mongodb.service;
 
 import com.shopease.backend.database.mongodb.data.Cart;
-import com.shopease.backend.database.mongodb.data.Order;
 import com.shopease.backend.database.mongodb.repository.CartRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -20,10 +19,10 @@ public class CartService {
         return cartRepository.findAll();
     }
 
-    public Optional<Cart> getCartById(long id) {
-        return cartRepository.findById(id);
+    public Optional<List<Cart>> getCartByUserId(long id) {
+        return cartRepository.findByUserId(id);
     }
-    public Optional<Cart> getCartByUserId(long userId) {
+    public Optional<Cart> getCartById(long userId) {
         return cartRepository.findById(userId);
     }
 

@@ -6,6 +6,8 @@ import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 
 @Document(collection = "order")
 @Getter
@@ -13,11 +15,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    long id;
     long userId;
     String addressId;
-    long itemsId;
+    List<Item> items;
+
+    @Getter
+    @Setter
+    public static class Item {
+        private long itemId;
+        private int quantity;
+    }
 }
 
