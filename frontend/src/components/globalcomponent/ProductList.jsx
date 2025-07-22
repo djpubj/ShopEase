@@ -1,4 +1,3 @@
-import banner1 from "@/assets/banner1.png";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   currentProduct,
@@ -26,15 +25,6 @@ const ProductList = () => {
             }}
           />
         ))}
-      <div className="col-span-full w-full ">
-        <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] h-64 md:h-96 mt-6">
-          <img
-            src={banner1}
-            alt="Banner"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
     </div>
   );
 };

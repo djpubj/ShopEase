@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { orderInCartState } from "../../data/atoms/atoms";
 import { GetUserId } from "../../data/Check";
@@ -16,19 +15,18 @@ export default function ProductCard({
   onClick,
 }) {
   const [liked, setLiked] = useState(false);
-  const handlelikedClick = () => {
-    setLiked(!liked);
-  };
   const navigate = useNavigate();
   const setOrderCart = useSetRecoilState(orderInCartState);
   const [modal, setModal] = useState(false);
+
+  const handleLikedClick = () => setLiked(!liked);
   const handleOnConfirmModel = () => {
-    setModal(!modal);
+    setModal(false);
     navigate("/LoginPage");
   };
-  const handleonCancelModel = () => setModal(!modal);
+  const handleOnCancelModel = () => setModal(false);
 
-  const handleAddtoCartClick = async () => {
+  const handleAddToCartClick = async () => {
     const userId = GetUserId();
     if (!userId) {
       setModal(true);
@@ -37,16 +35,14 @@ export default function ProductCard({
 
     const cartItem = {
       userId: Number(userId),
-      addressId: "null", // Or provide real address if available
+      addressId: "null",
       itemId: Number(itemId),
     };
 
     try {
       const response = await fetch("/api/carts", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(cartItem),
       });
 
@@ -77,9 +73,17 @@ export default function ProductCard({
 
   return (
     <>
-      <div className="bg-white rounded-2xl p-4 max-w-[240px] h-[420px] flex flex-col justify-between hover:shadow-lg transition overflow-hidden">
+      <div className="
+        bg-white rounded-2xl p-4 
+        w-[150px] h-[280px]
+        sm:w-[180px] sm:h-[320px]
+        md:w-[220px] md:h-[380px]
+        lg:w-[240px] lg:h-[420px]
+        flex flex-col justify-between 
+        hover:shadow-lg transition overflow-hidden
+      ">
         <div>
-          <div className="relative h-[180px] overflow-hidden rounded-xl">
+          <div className="relative h-[120px] sm:h-[140px] md:h-[160px] lg:h-[180px] overflow-hidden rounded-xl">
             <Link to="/ProductPage">
               <img
                 onClick={onClick}
@@ -88,27 +92,33 @@ export default function ProductCard({
                 className="w-full h-full object-contain transition-transform duration-300 ease-in-out transform hover:scale-110"
               />
             </Link>
-            <HeartButton liked={liked} handleClick={handlelikedClick} />
+            <HeartButton liked={liked} handleClick={handleLikedClick} />
           </div>
 
-          <div className="mt-4 space-y-1 overflow-hidden">
+          <div className="mt-3 sm:mt-4 space-y-1 overflow-hidden">
             <Link to="/ProductPage">
-              <h3 className="font-semibold text-lg truncate" onClick={onClick}>
+              <h3
+                className="font-semibold text-sm sm:text-base truncate"
+                onClick={onClick}
+              >
                 {title}
               </h3>
             </Link>
-            <p className="text-gray-500 text-[10px] line-clamp-2 leading-snug overflow-hidden">
+
+            <p className="text-gray-500 text-[10px] sm:text-xs line-clamp-2 leading-snug overflow-hidden">
               {description.split(" ").slice(0, 10).join(" ")}...
             </p>
 
-            <div className="flex items-center text-green-600 font-bold text-sm">
-              {"★".repeat(rating)}{" "}
-              <span className="text-black ml-2">({rating})</span>
+            <div className="flex items-center text-green-600 font-bold text-xs sm:text-sm">
+              {"★".repeat(rating)}
+              <span className="text-black ml-1 sm:ml-2">({rating})</span>
             </div>
 
             <Link to="/ProductPage">
-              <p className="text-lg font-bold" onClick={onClick}>
-                {" "}
+              <p
+                className="text-base sm:text-lg font-bold"
+                onClick={onClick}
+              >
                 ${price}
               </p>
             </Link>
@@ -116,17 +126,18 @@ export default function ProductCard({
         </div>
 
         <button
-          className="mt-3 border rounded-full w-full py-1 text-white bg-blue-600 hover:bg-blue-500"
-          onClick={handleAddtoCartClick}
+          className="mt-3 border rounded-full w-full py-1 text-xs sm:text-sm text-white bg-blue-600 hover:bg-blue-500"
+          onClick={handleAddToCartClick}
         >
           Add to Cart
         </button>
       </div>
+
       {modal && (
         <LoginPopUp
           message="Please Login First"
           onConfirm={handleOnConfirmModel}
-          onCancel={handleonCancelModel}
+          onCancel={handleOnCancelModel}
         />
       )}
     </>
@@ -141,7 +152,7 @@ function HeartButton({ liked, handleClick }) {
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="w-6 h-5"
+        className="w-5 h-5"
         viewBox="0 0 24 24"
         fill={liked ? "#ef4444" : "#ffffff"}
         stroke="#ef4444"
