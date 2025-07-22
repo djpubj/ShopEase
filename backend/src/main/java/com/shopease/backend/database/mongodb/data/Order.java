@@ -1,8 +1,5 @@
 package com.shopease.backend.database.mongodb.data;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,7 +14,7 @@ import java.util.List;
 public class Order {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    long id;
+    String orderId;
     long userId;
     String addressId;
     List<Item> items;

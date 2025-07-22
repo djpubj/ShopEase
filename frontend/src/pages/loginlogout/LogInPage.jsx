@@ -26,20 +26,21 @@ const LoginPage = () => {
         throw new Error("Login failed");
       }
 
-      const data = await response.json();
+      const data = await response.text();
       console.log("Login successful:", data);
 
       // Optionally store token or redirect user
       // localStorage.setItem("token", data.token);
       navigate("/account");
     } catch (err) {
+      console.log("this ");
       console.error("Error:", err.message);
       setError("Invalid email or password");
     }
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-100 px-4">
+    <div className="fixed inset-0 z-21 flex items-center justify-center bg-gray-100 px-4">
       <div className="max-w-md w-full bg-white shadow-lg rounded-xl p-8">
         <h2 className="text-2xl font-semibold text-center text-blue-600 mb-6">
           Welcome to ShopEase

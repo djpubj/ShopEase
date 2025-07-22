@@ -22,6 +22,7 @@ export default function Header() {
   const [modal, setModal] = useState(false);
   const menuRef = useRef(null);
   const searchRef = useRef(null);
+  const navigate = useNavigate();
 
   // Close mobile menu and search when clicking outside
   useEffect(() => {
@@ -43,7 +44,7 @@ export default function Header() {
   const cartProductList = useRecoilValue(orderInCartState);
   const cartCount = cartProductList.length;
 
-  const navigate = useNavigate();
+  
   const handleonCancelModel = () => setModal(!modal);
   const handleOnConfirmModel = () => {
     setModal(!modal);
@@ -76,7 +77,7 @@ export default function Header() {
 
   return (
     <>
-      <header className=" sticky top-0 z-50 bg-white">
+      <header className=" sticky top-0 z-20 bg-white">
         {/* Top Strip */}
         <div className="bg-blue-900 text-white text-xs sm:text-sm flex justify-between items-center px-4 sm:px-6 py-2">
           <div className="flex items-center gap-2">

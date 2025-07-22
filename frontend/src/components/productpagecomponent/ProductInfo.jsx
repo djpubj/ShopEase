@@ -24,26 +24,61 @@ export default function ProductInfo() {
     price: currentproduct.price,
     quantity: 1,
   };
+
   const [modal, setModal] = useState(false);
   const handleOnConfirmModel = () => {
     setModal(!modal);
     navigate("/LoginPage");
   };
   const handleonCancelModel = () => setModal(!modal);
-  const handleAddtoCartClick = () => {
-    console.log("hello");
-    if (GetUserId() === null) {
-      setModal(!modal);
-    } else {
-      setOrderCart((prevCart) => [...prevCart, newProduct]);
+  const handleAddtoCartClick = async () => {
+    const userId = GetUserId();
+    if (!userId) {
+      setModal(true);
+      return;
+    }
+
+    const cartItem = {
+      userId: Number(userId),
+      addressId: "null", // Or provide real address if available
+      itemId: Number(currentproduct.itemId),
+    };
+
+    try {
+      const response = await fetch("/api/carts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartItem),
+      });
+
+      if (response.ok) {
+        // const addedCartItem = await response.json();
+        // const newProduct = {
+        //   itemId: currentproduct.itemId,
+        //   title: currentproduct.title,
+        //   imageUrl: currentproduct.imageUrl,
+        //   price: currentproduct.price,
+        //   quantity: 1,
+        // };
+        // setOrderCart((prevCart) => [...prevCart, newProduct]);
+        alert("Item added to cart successfully!");
+      } else {
+        const errorText = await response.text();
+        alert("Failed to add to cart: " + errorText);
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Something went wrong while adding to cart.");
     }
   };
-
+  let userId = GetUserId();
   const handleBuyNowClick = () => {
-    if (GetUserId() === null) {
+    if (userId === null) {
       setModal(!modal);
     } else {
-      setOrderCart((prevCart) => [...prevCart, newProduct]);
+      handleAddtoCartClick();
       navigate("/CartCheckout");
     }
   };

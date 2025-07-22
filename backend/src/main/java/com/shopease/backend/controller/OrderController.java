@@ -2,6 +2,7 @@ package com.shopease.backend.controller;
 
 import com.shopease.backend.database.mongodb.data.Order;
 import com.shopease.backend.database.mongodb.service.OrderService;
+import com.shopease.backend.dto.IdDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,26 +28,28 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable long id) {
-        Optional<Order> order = orderService.getOrderById(id);
+    public ResponseEntity<Order> getOrderByOrderId(@PathVariable String id) {
+        Optional<Order> order = orderService.getOrderByOrderId(id);
         return order.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
     @GetMapping("/userid/{id}")
-    public ResponseEntity<Order> getUserById(@PathVariable long id) {
+    public ResponseEntity<Order> getOrderByUserId(@PathVariable long id) {
         Optional<Order> order = orderService.getOrderByUserId(id);
         return order.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+
+    /// ////////////////////////////
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order savedOrder = orderService.saveOrder(order);
+    public ResponseEntity<Order> createOrder(@RequestBody IdDto userId) {
+        Order savedOrder = orderService.saveOrder(Long.parseLong(userId.getId()));
         return ResponseEntity.ok(savedOrder);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable long id) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable String id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }

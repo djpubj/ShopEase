@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends MongoRepository<Order,Long> {
-    Optional<Order> findById(Long id);
+    Optional<Order> findByOrderId(String id);
     Optional<Order> findByUserId(Long userId);
-    void deleteById(Long id);
+    void deleteByOrderId(String orderId);
 }

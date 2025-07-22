@@ -5,6 +5,7 @@ import com.shopease.backend.database.mongodb.repository.CartRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class CartService {
@@ -19,14 +20,15 @@ public class CartService {
         return cartRepository.findAll();
     }
 
-    public Optional<List<Cart>> getCartByUserId(long id) {
-        return cartRepository.findByUserId(id);
+    public Optional<List<Cart>> getCartByUserId(long userId) {
+        return cartRepository.findByUserId(userId);
     }
-    public Optional<Cart> getCartById(long userId) {
-        return cartRepository.findById(userId);
+    public Optional<Cart> getCartByCartId(String cartId) {
+        return cartRepository.findByCartId(cartId);
     }
 
     public Cart saveCart(Cart cart) {
+        cart.setCartId(UUID.randomUUID().toString());
         return cartRepository.save(cart);
     }
 

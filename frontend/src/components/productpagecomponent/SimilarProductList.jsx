@@ -1,14 +1,12 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   currentProduct,
-  productDataState1,
-  productDataState2,
+  productDataState1
 } from "../../data/atoms/atoms";
 import ProductCard from "../globalcomponent/ProductCard";
 
 const SimilarProductList = () => {
   const products = useRecoilValue(productDataState1);
-  const products2 = useRecoilValue(productDataState2);
   const [currentproduct, setcurrentproduct] = useRecoilState(currentProduct);
   return (
     <div className="p-6 bg-gray-50 rounded-2xl my-4">
@@ -20,23 +18,6 @@ const SimilarProductList = () => {
               <ProductCard
                 key={index}
                 itemId={p.itemId}
-                image={p.imageUrl}
-                title={p.title}
-                price={p.price}
-                description={p.description}
-                rating={p.rating}
-                onClick={() => {
-                  setcurrentproduct(p);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-              />
-            ) : null
-          )}
-          {products2.map((p, index) =>
-            currentproduct.category === p.category ? (
-              <ProductCard
-                key={index}
-                productId={p.productId}
                 image={p.imageUrl}
                 title={p.title}
                 price={p.price}

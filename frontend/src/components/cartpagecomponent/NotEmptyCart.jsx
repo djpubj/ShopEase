@@ -1,18 +1,22 @@
 import dc from "@/assets/cards/dc.png";
 import gp from "@/assets/cards/gp.png";
 import pp from "@/assets/cards/pp.png";
+import { GetUserId } from "../../data/Check";
 import { useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { orderInCartState, orderSuccessModal, totalAmountState } from "../../data/atoms/atoms";
+import {
+  orderInCartState,
+  orderSuccessModal,
+  totalAmountState,
+} from "../../data/atoms/atoms";
 import PaymentInput from "./PaymentInput";
-
 
 export default function NotEmptyCart() {
   const [selectedMethod, setSelectedMethod] = useState("cod");
   const price = useRecoilValue(totalAmountState);
   const setCartProductList = useSetRecoilState(orderInCartState);
   const [ordersuccessmodel, setordersuccessmodel] =
-      useRecoilState(orderSuccessModal);
+    useRecoilState(orderSuccessModal);
   const paymentMethods = [
     { id: "cod", label: "Cash on Delivery" },
     { id: "shopcart", label: "ShopEase Card" },
@@ -26,10 +30,37 @@ export default function NotEmptyCart() {
     { label: "Coupon Discount", value: `$${(price * 0.43).toFixed(2)}` },
     { label: "Shipping Cost", value: "$0.00" },
   ];
-  const handleOnClickPay = () => {
-    setCartProductList((products) => []);
-    setordersuccessmodel(true);
+  const handleOnClickPay = async () => {
+    const userId = GetUserId();
+    if (!userId) {
+      alert("User ID not found. Please log in again.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: userId }), // matches your IdDto structure
+      });
+
+      if (!response.ok) {
+        alert("Order creation failed");
+        throw new Error("Order creation failed");
+      }
+
+      const order = await response.json();
+      alert("Order placed successfully! Order ID: " + order.orderId);
+
+      setCartProductList([]);
+      setordersuccessmodel(true);
+    } catch (error) {
+      alert("Failed to place order. Please try again.");
+    }
   };
+
   const total = price + price * 0.1 - price * 0.43;
   return (
     <div>
@@ -65,21 +96,9 @@ export default function NotEmptyCart() {
         </div>
 
         <div className="flex gap-2 mt-2">
-          <img
-            src={gp}
-            alt="Google pay"
-            className="h-10"
-          />
-          <img
-            src={pp}
-            alt="MasterCard"
-            className="h-10"
-          />
-          <img
-            src={dc}
-            alt="Debit Card"
-            className="h-10"
-          />
+          <img src={gp} alt="Google pay" className="h-10" />
+          <img src={pp} alt="MasterCard" className="h-10" />
+          <img src={dc} alt="Debit Card" className="h-10" />
         </div>
       </div>
 

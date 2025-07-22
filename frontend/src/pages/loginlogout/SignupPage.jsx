@@ -50,7 +50,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div className=" inset-0 min-h-screen flex items-center justify-center bg-gray-100 px-4 p-10">
+    <div className="fixed inset-0 z-21 flex items-center justify-center bg-gray-100 px-4 p-10">
       <div className="max-w-md w-full bg-white shadow-lg rounded-xl p-8">
         <h2 className="text-2xl font-semibold text-center text-blue-600 mb-6">
           Create Your ShopEase Account

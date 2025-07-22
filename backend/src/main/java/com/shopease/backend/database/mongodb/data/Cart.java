@@ -1,8 +1,5 @@
 package com.shopease.backend.database.mongodb.data;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,8 +13,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Cart {
-//    private long id;
+    private String cartId;
     private long userId;
     private String addressId;
+    private int quantity=1;
     private long itemId;
 }

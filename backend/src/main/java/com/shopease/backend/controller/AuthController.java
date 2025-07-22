@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api")
@@ -76,7 +78,7 @@ public class AuthController {
         if (users.isPresent()) {
             userService.addCookies(response, token, users.get().getId());
             return ResponseEntity
-                    .ok("Authentication successful");
+                    .ok( "Authentication successful");
         }
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)

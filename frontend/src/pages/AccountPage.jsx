@@ -8,6 +8,7 @@ export default function AccountPage() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null); // store fetched user
 
+
   useEffect(() => {
     const fetchUser = async () => {
       const userId = GetUserId();

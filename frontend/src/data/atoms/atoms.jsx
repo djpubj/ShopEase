@@ -6,10 +6,6 @@ export const productDataState1=atom({
     default:[]
 })
 
-export const productDataState2=atom({
-    key:"productlist2",
-    default:[]
-})
 
 export const orderInCartState=atom({
     key:"cartproduct",

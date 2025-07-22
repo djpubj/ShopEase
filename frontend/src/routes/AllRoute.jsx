@@ -7,20 +7,36 @@ import ProductPage from "@/pages/ProductPage";
 import CartCheckout from "@/pages/CartCheckout";
 import SearchedPage from "../pages/SearchedPage";
 import AccountPage from "../pages/AccountPage";
+import ProtectedRoute from "../data/ProtectedRoute";
 
 export default function AllRoute() {
   return (
     <>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/CartCheckout" element={<CartCheckout />} />
-      <Route path="/ProductPage" element={<ProductPage />} />
-      <Route path="/LoginPage" element={<LoginPage />} />
-      <Route path="/SignupPage" element={<SignupPage />} />
-      <Route path="/SearchedPage" element={<SearchedPage/>}/>
-      <Route path="/account" element={<AccountPage />} />
-      {/* <Route path="/"/> */}
-    </Routes>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/ProductPage" element={<ProductPage />} />
+        <Route path="/LoginPage" element={<LoginPage />} />
+        <Route path="/SignupPage" element={<SignupPage />} />
+        <Route path="/SearchedPage" element={<SearchedPage />} />
+
+        {/* Protected Routes */}
+        <Route
+          path="/CartCheckout"
+          element={
+            <ProtectedRoute>
+              <CartCheckout />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <ProtectedRoute>
+              <AccountPage />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
     </>
   );
 }
